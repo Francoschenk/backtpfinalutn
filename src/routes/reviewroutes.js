@@ -1,41 +1,28 @@
 const express = require('express');
-const router = express.Router();
 const Review = require('../models/review');
+const router = express.Router();
+
 
 // Ruta para crear una nueva reseña (POST /api/reviews)
 router.post('/', async (req, res) => {
-    const { name, age, score, reviewText, places } = req.body;
-
-    // Validación de datos: nombre y puntaje son obligatorios
-    if (!name || !score) {
-        return res.status(400).json({ message: 'El nombre y el puntaje son obligatorios' });
-    }
-
-    // Creamos la nueva reseña
-    const newReview = new Review({
-        name,
-        age: age ? age : undefined, // Si no se pasa edad, no se incluye en la base de datos
-        score,
-        reviewText: reviewText ? reviewText.trim() : undefined, // Si no se proporciona reseña, no se incluirá
-        places: places ? places.trim() : undefined // Si no se proporciona lugar, no se incluirá
-    });
-
     try {
-        // Guardamos la reseña en la base de datos
-        const savedReview = await newReview.save();
-        res.status(201).json(savedReview); // Respondemos con la reseña guardada
-    } catch (err) {
-        res.status(500).json({ message: 'Error al guardar la reseña', error: err.message });
-    }
+        const newReview = new Review(req.body);
+        await newReview.save();
+        console.log(newReview);
+        res.status(201).json(newReview);
+      } catch (error) {
+        res.status(400).json({ mensaje: 'Error al crear la reseña', error });
+      }
 });
 
 // Ruta para obtener todas las reseñas (GET /api/reviews)
 router.get('/', async (req, res) => {
     try {
         const reviews = await Review.find(); // Buscar todas las reseñas
+        console.log("aqui esta lo que encontre",reviews)
         res.json(reviews); // Devolver las reseñas en formato JSON
     } catch (err) {
-        res.status(400).send(err); // Responder con error si algo falla
+        res.status(400).send("no puedo traer las reseñas",err); // Responder con error si algo falla
     }
 });
 

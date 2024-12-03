@@ -7,22 +7,22 @@ const reviewSchema = new mongoose.Schema({
         required: [true, 'El nombre es obligatorio'] // El nombre es obligatorio
     },
     age: { 
-        type: Number, 
+        // type: Number,
+        type: String, 
         min: [1, 'La edad debe ser un número positivo'],
         max: [120, 'La edad no puede ser mayor de 120 años'],
         required: false // La edad es opcional
     },
     score: { 
-        type: Number, 
+        type: String, 
+        // type: Number, 
         required: [true, 'El puntaje es obligatorio'], 
         min: [0, 'El puntaje debe ser entre 0 y 10'], 
         max: [10, 'El puntaje debe ser entre 0 y 10'] 
     },
-    reviewText: { 
+    reviewtext: { 
         type: String, 
-        required: false, // Reseña de texto opcional
-        minlength: [1, 'La reseña debe tener al menos 1 carácter'], 
-        maxlength: [500, 'La reseña no puede tener más de 500 caracteres'] 
+        required: false // Reseña de texto opcional 
     },
     places: { 
         type: String, 
